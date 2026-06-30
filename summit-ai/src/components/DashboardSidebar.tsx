@@ -29,6 +29,13 @@ const navItems = [
   { href: '/dashboard/settings', label: 'Settings', icon: Settings },
 ]
 
+const bottomTabs = [
+  { href: '/dashboard', label: 'Home', icon: Zap, exact: true },
+  { href: '/dashboard/marketing-assistant', label: 'Create', icon: Sparkles },
+  { href: '/dashboard/history', label: 'History', icon: Clock },
+  { href: '/dashboard/settings', label: 'Settings', icon: Settings },
+]
+
 interface NavItem {
   href: string
   label: string
@@ -57,18 +64,18 @@ export default function DashboardSidebar({ user, profile }: Props) {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-black/8 flex items-center justify-between px-4 z-30">
+      <div
+        className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-black/8 flex items-center justify-between px-4 z-30"
+        style={{ paddingTop: 'env(safe-area-inset-top)', height: 'calc(3.5rem + env(safe-area-inset-top))' }}
+      >
+        <Image src="/sai.png" alt="Summit AI" width={110} height={30} className="h-6 w-auto" style={{ filter: 'invert(1)' }} />
         <button
           onClick={() => setOpen(true)}
           aria-label="Open menu"
-          className="flex items-center justify-center w-9 h-9 rounded-lg text-gray-700 active:bg-gray-100"
+          className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0"
         >
-          <Menu className="w-5 h-5" />
-        </button>
-        <Image src="/sai.png" alt="Summit AI" width={110} height={30} className="h-6 w-auto" style={{ filter: 'invert(1)' }} />
-        <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
           {(profile?.full_name || user.email || 'U')[0].toUpperCase()}
-        </div>
+        </button>
       </div>
 
       {/* Mobile overlay */}
@@ -176,6 +183,34 @@ export default function DashboardSidebar({ user, profile }: Props) {
         </button>
       </div>
       </aside>
+
+      {/* Mobile bottom tab bar */}
+      <nav
+        className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-black/8 flex items-stretch z-30"
+        style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+      >
+        {bottomTabs.map(tab => {
+          const active = tab.exact ? pathname === tab.href : pathname.startsWith(tab.href)
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className="flex-1 flex flex-col items-center justify-center gap-1 py-2"
+              style={{ color: active ? '#7c3aed' : '#9ca3af' }}
+            >
+              <tab.icon className="w-5 h-5" strokeWidth={active ? 2.4 : 2} />
+              <span className="text-[10px] font-medium">{tab.label}</span>
+            </Link>
+          )
+        })}
+        <button
+          onClick={() => setOpen(true)}
+          className="flex-1 flex flex-col items-center justify-center gap-1 py-2 text-gray-400"
+        >
+          <Menu className="w-5 h-5" />
+          <span className="text-[10px] font-medium">More</span>
+        </button>
+      </nav>
     </>
   )
 }
