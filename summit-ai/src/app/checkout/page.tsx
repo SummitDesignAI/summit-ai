@@ -1,11 +1,31 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { GlassCheckoutCard } from '@/components/ui/glass-checkout-card-shadcnui'
 import { ArrowLeft, Check } from 'lucide-react'
 
 export default function CheckoutPage() {
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  async function handlePay() {
+    setLoading(true)
+    setError('')
+    try {
+      const res = await fetch('/api/stripe/checkout', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || 'Could not start checkout')
+      }
+      window.location.href = data.url
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong')
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-black text-white flex flex-col">
       {/* Top bar */}
@@ -50,10 +70,11 @@ export default function CheckoutPage() {
         </div>
 
         {/* Checkout card */}
-        <GlassCheckoutCard
-          amount={9.99}
-          onPay={() => window.location.href = '/api/stripe/checkout'}
-        />
+        <div className="flex flex-col items-center gap-3">
+          <GlassCheckoutCard amount={9.99} onPay={handlePay} />
+          {loading && <p className="text-xs" style={{ color: '#6b6b78' }}>Redirecting to secure checkout…</p>}
+          {error && <p className="text-xs text-red-400">{error}</p>}
+        </div>
       </div>
     </div>
   )
