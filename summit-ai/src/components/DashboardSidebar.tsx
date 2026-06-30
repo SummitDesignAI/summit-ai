@@ -68,7 +68,9 @@ export default function DashboardSidebar({ user, profile }: Props) {
         className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white/95 backdrop-blur-md border-b border-black/8 flex items-center justify-between px-4 z-30"
         style={{ paddingTop: 'env(safe-area-inset-top)', height: 'calc(3.5rem + env(safe-area-inset-top))' }}
       >
-        <Image src="/sai.png" alt="Summit AI" width={110} height={30} className="h-6 w-auto" style={{ filter: 'invert(1)' }} />
+        <Link href="/">
+          <Image src="/sai.png" alt="Summit AI" width={110} height={30} className="h-6 w-auto" style={{ filter: 'invert(1)' }} />
+        </Link>
         <button
           onClick={() => setOpen(true)}
           aria-label="Open menu"
