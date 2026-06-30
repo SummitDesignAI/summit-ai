@@ -43,13 +43,13 @@ export default function SettingsClient({ user, profile }: Props) {
   }
 
   return (
-    <div className="max-w-2xl">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center">
+    <div className="max-w-2xl w-full">
+      <div className="flex items-center gap-3 mb-6 sm:mb-8">
+        <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center shrink-0">
           <Settings className="w-5 h-5 text-white" />
         </div>
-        <div>
-          <h1 className="text-2xl font-bold">Settings</h1>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold">Settings</h1>
           <p className="text-gray-500 text-sm mt-0.5">Manage your account and subscription</p>
         </div>
       </div>
@@ -65,26 +65,26 @@ export default function SettingsClient({ user, profile }: Props) {
       )}
 
       {/* Account info */}
-      <div className="bg-white border border-black/8 rounded-2xl p-6 mb-4">
+      <div className="bg-white border border-black/8 rounded-2xl p-4 sm:p-6 mb-4">
         <h2 className="font-bold text-lg mb-4">Account Information</h2>
         <div className="space-y-3">
-          <div className="flex items-center justify-between py-2 border-b border-gray-100">
-            <span className="text-sm text-gray-500">Name</span>
-            <span className="text-sm font-medium">{profile?.full_name || 'Not set'}</span>
+          <div className="flex items-center justify-between gap-3 py-2 border-b border-gray-100">
+            <span className="text-sm text-gray-500 shrink-0">Name</span>
+            <span className="text-sm font-medium truncate">{profile?.full_name || 'Not set'}</span>
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-gray-100">
-            <span className="text-sm text-gray-500">Email</span>
-            <span className="text-sm font-medium">{user.email}</span>
+          <div className="flex items-center justify-between gap-3 py-2 border-b border-gray-100">
+            <span className="text-sm text-gray-500 shrink-0">Email</span>
+            <span className="text-sm font-medium truncate">{user.email}</span>
           </div>
-          <div className="flex items-center justify-between py-2">
-            <span className="text-sm text-gray-500">Account ID</span>
-            <span className="text-xs font-mono text-gray-400">{user.id.slice(0, 8)}...</span>
+          <div className="flex items-center justify-between gap-3 py-2">
+            <span className="text-sm text-gray-500 shrink-0">Account ID</span>
+            <span className="text-xs font-mono text-gray-400 truncate">{user.id.slice(0, 8)}...</span>
           </div>
         </div>
       </div>
 
       {/* Subscription */}
-      <div className="bg-white border border-black/8 rounded-2xl p-6 mb-4">
+      <div className="bg-white border border-black/8 rounded-2xl p-4 sm:p-6 mb-4">
         <h2 className="font-bold text-lg mb-4">Subscription</h2>
 
         {isSubscribed ? (
@@ -123,14 +123,14 @@ export default function SettingsClient({ user, profile }: Props) {
               </p>
             </div>
 
-            <div className="border-2 border-black rounded-2xl p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
+            <div className="border-2 border-black rounded-2xl p-4 sm:p-6">
+              <div className="flex items-start justify-between gap-3 mb-4">
+                <div className="min-w-0">
                   <h3 className="font-bold text-lg">Summit Pro</h3>
-                  <div className="text-3xl font-bold mt-1">$9.99 <span className="text-sm font-normal text-gray-400">CAD/month</span></div>
+                  <div className="text-2xl sm:text-3xl font-bold mt-1">$9.99 <span className="text-sm font-normal text-gray-400">CAD/month</span></div>
                   <p className="text-xs text-gray-400 mt-0.5">Less than a coffee per day · Cancel anytime</p>
                 </div>
-                <Crown className="w-6 h-6 text-black" />
+                <Crown className="w-6 h-6 text-black shrink-0" />
               </div>
               <ul className="space-y-2 mb-5">
                 {[

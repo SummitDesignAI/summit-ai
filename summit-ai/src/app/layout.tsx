@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, Bebas_Neue } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
@@ -20,6 +20,13 @@ const bebasNeue = Bebas_Neue({
 export const metadata: Metadata = {
   title: "Summit AI — AI Tools for Local Businesses",
   description: "Generate Google review replies, social media posts, quotes, proposals and more. One subscription, unlimited AI power for your business.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

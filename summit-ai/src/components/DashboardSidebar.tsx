@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -7,7 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import {
   Zap, Star, Share2, Mail, FileText, FileCheck,
   Megaphone, BookOpen, HelpCircle, MapPin, Clock, Settings, LogOut, Crown,
-  Globe, Bot, Sparkles
+  Globe, Bot, Sparkles, Menu, X
 } from 'lucide-react'
 
 const navItems = [
@@ -44,6 +45,7 @@ interface Props {
 export default function DashboardSidebar({ user, profile }: Props) {
   const pathname = usePathname()
   const router = useRouter()
+  const [open, setOpen] = useState(false)
 
   const handleLogout = async () => {
     const supabase = createClient()
@@ -53,12 +55,48 @@ export default function DashboardSidebar({ user, profile }: Props) {
   }
 
   return (
-    <aside className="fixed left-0 top-0 bottom-0 w-64 bg-white border-r border-black/8 flex flex-col z-40 overflow-y-auto">
+    <>
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-white border-b border-black/8 flex items-center justify-between px-4 z-30">
+        <button
+          onClick={() => setOpen(true)}
+          aria-label="Open menu"
+          className="flex items-center justify-center w-9 h-9 rounded-lg text-gray-700 active:bg-gray-100"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <Image src="/sai.png" alt="Summit AI" width={110} height={30} className="h-6 w-auto" style={{ filter: 'invert(1)' }} />
+        <div className="w-8 h-8 bg-black rounded-full flex items-center justify-center text-white text-xs font-bold shrink-0">
+          {(profile?.full_name || user.email || 'U')[0].toUpperCase()}
+        </div>
+      </div>
+
+      {/* Mobile overlay */}
+      {open && (
+        <div
+          className="md:hidden fixed inset-0 bg-black/40 z-40"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={`fixed left-0 top-0 bottom-0 w-72 max-w-[85vw] bg-white border-r border-black/8 flex flex-col z-50 overflow-y-auto transform transition-transform duration-300 ease-in-out md:w-64 md:max-w-none md:translate-x-0 ${
+          open ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
       {/* Logo */}
-      <div className="p-5 border-b border-black/8">
+      <div className="p-5 border-b border-black/8 flex items-center justify-between">
         <Link href="/">
           <Image src="/sai.png" alt="Summit AI" width={130} height={36} className="h-8 w-auto" style={{ filter: 'invert(1)' }} />
         </Link>
+        <button
+          onClick={() => setOpen(false)}
+          aria-label="Close menu"
+          className="md:hidden flex items-center justify-center w-8 h-8 rounded-lg text-gray-500 active:bg-gray-100"
+        >
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
       {/* Subscription badge */}
@@ -88,6 +126,7 @@ export default function DashboardSidebar({ user, profile }: Props) {
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={() => setOpen(false)}
                 className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold transition-all mb-1"
                 style={active
                   ? { background: '#2e1065', color: '#fff', border: '1px solid rgba(124,58,237,0.5)' }
@@ -104,6 +143,7 @@ export default function DashboardSidebar({ user, profile }: Props) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setOpen(false)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 active ? 'bg-black' : 'text-gray-600 hover:bg-gray-100 hover:text-black'
               }`}
@@ -135,6 +175,7 @@ export default function DashboardSidebar({ user, profile }: Props) {
           Sign out
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   )
 }

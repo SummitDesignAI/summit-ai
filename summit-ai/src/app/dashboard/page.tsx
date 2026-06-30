@@ -50,15 +50,15 @@ export default async function DashboardPage() {
   return (
     <div>
       {/* Welcome */}
-      <div className="flex items-start justify-between mb-8">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-2xl font-bold mb-1">Welcome back, {name} 👋</h1>
+          <h1 className="text-xl sm:text-2xl font-bold mb-1">Welcome back, {name} 👋</h1>
           <p className="text-gray-500 text-sm">What would you like to create today?</p>
         </div>
         {!isSubscribed && (
           <Link
             href="/dashboard/settings"
-            className="upgrade-pro-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2"
+            className="upgrade-pro-btn px-4 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 w-full sm:w-auto"
           >
             <Crown className="w-4 h-4" />
             Upgrade to Pro
@@ -67,29 +67,29 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-white border border-black/8 rounded-xl p-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="bg-white border border-black/8 rounded-xl p-4 sm:p-5 col-span-2 sm:col-span-1">
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Plan</p>
-          <p className="text-xl font-bold flex items-center gap-2">
+          <p className="text-lg sm:text-xl font-bold flex items-center gap-2">
             {isSubscribed ? <><Crown className="w-5 h-5" /> Summit Pro</> : 'Free Plan'}
           </p>
         </div>
-        <div className="bg-white border border-black/8 rounded-xl p-5">
+        <div className="bg-white border border-black/8 rounded-xl p-4 sm:p-5">
           <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Generations</p>
-          <p className="text-xl font-bold">
+          <p className="text-lg sm:text-xl font-bold">
             {isSubscribed ? (historyCount || 0) : `${genCount} / 3`}
-            {!isSubscribed && <span className="text-sm font-normal text-gray-400 ml-1">free used</span>}
+            {!isSubscribed && <span className="text-xs sm:text-sm font-normal text-gray-400 ml-1 block sm:inline">free used</span>}
           </p>
         </div>
-        <div className="bg-white border border-black/8 rounded-xl p-5">
-          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Tools Available</p>
-          <p className="text-xl font-bold">12 Tools</p>
+        <div className="bg-white border border-black/8 rounded-xl p-4 sm:p-5">
+          <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">Tools</p>
+          <p className="text-lg sm:text-xl font-bold">12</p>
         </div>
       </div>
 
       {/* Upgrade banner for free users */}
       {!isSubscribed && (
-        <div className="bg-black text-white rounded-2xl p-6 mb-8 flex items-center justify-between">
+        <div className="bg-black text-white rounded-2xl p-5 sm:p-6 mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Zap className="w-4 h-4" fill="white" />
@@ -99,7 +99,7 @@ export default async function DashboardPage() {
           </div>
           <Link
             href="/dashboard/settings"
-            className="bg-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors whitespace-nowrap flex items-center gap-2"
+            className="bg-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-gray-100 transition-colors whitespace-nowrap flex items-center justify-center gap-2 w-full sm:w-auto"
             style={{ color: '#000' }}
           >
             Upgrade Now <ArrowRight className="w-4 h-4" />
@@ -111,45 +111,45 @@ export default async function DashboardPage() {
       <div className="mb-6">
         <Link
           href={featuredTool.href}
-          className="block rounded-2xl p-6 transition-all hover:scale-[1.01]"
+          className="block rounded-2xl p-4 sm:p-6 transition-all hover:scale-[1.01]"
           style={{
             background: 'linear-gradient(135deg, #1a0a3a 0%, #0a0a0a 60%)',
             border: '1px solid rgba(124,58,237,0.35)',
             boxShadow: '0 0 30px rgba(124,58,237,0.08)',
           }}
         >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)' }}>
-              <featuredTool.icon className="w-6 h-6" style={{ color: '#a78bfa' }} />
+          <div className="flex items-start gap-3 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(124,58,237,0.15)', border: '1px solid rgba(124,58,237,0.3)' }}>
+              <featuredTool.icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: '#a78bfa' }} />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <p className="font-bold text-white text-base">{featuredTool.label}</p>
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <p className="font-bold text-white text-sm sm:text-base">{featuredTool.label}</p>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(124,58,237,0.25)', color: '#a78bfa', border: '1px solid rgba(124,58,237,0.3)' }}>
                   {featuredTool.badge}
                 </span>
               </div>
-              <p className="text-sm text-gray-400">{featuredTool.desc}</p>
+              <p className="text-xs sm:text-sm text-gray-400">{featuredTool.desc}</p>
             </div>
-            <ArrowRight className="w-5 h-5 text-gray-600 shrink-0 mt-0.5" />
+            <ArrowRight className="w-5 h-5 text-gray-600 shrink-0 mt-0.5 hidden sm:block" />
           </div>
         </Link>
       </div>
 
       {/* Tools grid */}
       <h2 className="text-lg font-bold mb-4">All Tools</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
         {tools.map(tool => (
           <Link
             key={tool.href}
             href={tool.href}
-            className="tool-card bg-white border border-black/8 rounded-xl p-5 flex items-start gap-4 hover:border-gray-300 transition-all"
+            className="tool-card bg-white border border-black/8 rounded-xl p-4 sm:p-5 flex items-start gap-3 sm:gap-4 hover:border-gray-300 transition-all"
           >
             <div className="w-10 h-10 bg-black rounded-xl flex items-center justify-center shrink-0">
               <tool.icon className="w-5 h-5 text-white" />
             </div>
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-0.5">
+              <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                 <p className="font-semibold text-sm text-gray-900">{tool.label}</p>
                 {tool.badge && (
                   <span

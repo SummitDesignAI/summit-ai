@@ -179,21 +179,21 @@ export default function ToolPage({ tool, title, description, icon, fields, isSub
   const allFilled = fields.every(f => values[f.key]?.trim())
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-3xl w-full">
       {/* Header */}
-      <div className="flex items-start gap-4 mb-8">
-        <div className="w-12 h-12 bg-black rounded-xl flex items-center justify-center shrink-0 text-white">
+      <div className="flex items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
+        <div className="w-10 h-10 sm:w-12 sm:h-12 bg-black rounded-xl flex items-center justify-center shrink-0 text-white">
           {icon}
         </div>
-        <div>
-          <h1 className="text-2xl font-bold">{title}</h1>
+        <div className="min-w-0">
+          <h1 className="text-xl sm:text-2xl font-bold">{title}</h1>
           <p className="text-gray-500 text-sm mt-1">{description}</p>
         </div>
       </div>
 
       {/* Free plan notice */}
       {!isSubscribed && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-start gap-3">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 sm:p-4 mb-5 sm:mb-6 flex items-start gap-2.5 sm:gap-3">
           <Crown className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
           <div className="text-sm">
             <span className="font-semibold text-amber-800">Free plan: </span>
@@ -205,7 +205,7 @@ export default function ToolPage({ tool, title, description, icon, fields, isSub
       )}
 
       {/* Form */}
-      <div className="bg-white border border-black/8 rounded-2xl p-6 mb-4">
+      <div className="bg-white border border-black/8 rounded-2xl p-4 sm:p-6 mb-4">
         <div className="space-y-4 mb-6">
           {fields.map(field => (
             <div key={field.key}>
