@@ -17,6 +17,7 @@ interface Props {
 export default function SettingsClient({ user, profile }: Props) {
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [portalLoading, setPortalLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState('')
   const [successParam] = useState(() => {
     if (typeof window !== 'undefined') {
       return new URLSearchParams(window.location.search).get('success')
@@ -28,10 +29,18 @@ export default function SettingsClient({ user, profile }: Props) {
 
   const handleUpgrade = async () => {
     setCheckoutLoading(true)
-    const res = await fetch('/api/stripe/checkout', { method: 'POST' })
-    const { url } = await res.json()
-    if (url) window.location.href = url
-    setCheckoutLoading(false)
+    setCheckoutError('')
+    try {
+      const res = await fetch('/api/stripe/checkout', { method: 'POST' })
+      const data = await res.json()
+      if (!res.ok || !data.url) {
+        throw new Error(data.error || `Checkout failed (${res.status})`)
+      }
+      window.location.href = data.url
+    } catch (e) {
+      setCheckoutError(e instanceof Error ? e.message : 'Something went wrong')
+      setCheckoutLoading(false)
+    }
   }
 
   const handlePortal = async () => {
@@ -157,6 +166,9 @@ export default function SettingsClient({ user, profile }: Props) {
               >
                 {checkoutLoading ? 'Redirecting to checkout...' : 'Upgrade to Summit Pro — $9.99 CAD/mo'}
               </button>
+              {checkoutError && (
+                <p className="text-center text-xs text-red-500 mt-3">{checkoutError}</p>
+              )}
               <p className="text-center text-xs text-gray-400 mt-3">Secure payment via Stripe · Cancel anytime · Prices in CAD</p>
             </div>
           </div>
